@@ -17,7 +17,7 @@ def mainfrom():
              Psg.Button('', button_color=("green", "green"), border_width=0, key=status_btn_key + str(i), size=(1, 3),
                         disabled=True),
              Psg.T('', size=(2, 1)),
-             Psg.Image(data=IconsList.led_, key=led_t1_key + '0' + str(i)),
+             Psg.Image(data=IconsList.ledNo, key=led_t1_key + '0' + str(i)),
              Psg.Image(data=IconsList.led0, key=led_t1_key + '1' + str(i)),
              Psg.Image(data=IconsList.led0, key=led_t1_key + '2' + str(i)),
              Psg.Button('', image_data=IconsList.okIcon, key=secutrity_btn_key + str(i)),
