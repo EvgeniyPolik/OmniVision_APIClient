@@ -14,8 +14,8 @@ while True:
     try:
         with open('config.cfg', 'r') as paramfile:
             configApp = paramfile.readlines()
-        host = configApp[0]
-        pathDb = configApp[1]
+        host = configApp[0].strip('\n')
+        pathDb = configApp[1].strip('\n')
         db = fdb.connect(host=host, database=pathDb, user='SYSDBA', password='masterkey')
         break
     except (FileNotFoundError, IndexError):
@@ -25,7 +25,7 @@ while True:
             exit(0)
         with open('config.cfg', 'w') as paramfile:
             for u in range(len(NewConfig)):
-                paramfile.writelines(NewConfig[u])
+                paramfile.writelines(NewConfig[u] + '\n')
 
 
 MainForm.mainform()
