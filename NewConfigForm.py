@@ -16,7 +16,7 @@ def NewConfigForm():
                ]
 
     newConfigForm = Psg.Window('Параметры', layout1,
-                               finalize=True, icon=IconsList.iconMainForm)
+                               finalize=True)
 
     while True:
         event, value = newConfigForm.Read()

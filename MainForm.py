@@ -1,5 +1,6 @@
 import PySimpleGUI as Psg
 import IconsList
+import RegQuery
 
 radio_btn_key = '-radio-'
 mode_key = '-mode-'
@@ -45,7 +46,7 @@ def mainform():
                        Psg.T('Режим:', font=mainFont, size=(8, 1)),
                        Psg.T('Котел:', font=mainFont, size=(7, 1)),
                        Psg.T('Охрана:', font=mainFont, size=(7, 1)),
-                       Psg.T('Питание:', font=mainFont, size=(8, 1)),
+                       Psg.T('Питание:', font=mainFont, size=(7, 1)),
                        Psg.T('Давление:', font=mainFont, size=(10, 1)),
                        Psg.T('ГАЗ:', font=mainFont, size=(5, 1)),
                        Psg.T('Пож Сигн:', font=mainFont, size=(8, 1))
@@ -54,7 +55,7 @@ def mainform():
     headsOnTable = ['Объект: ', 'Событие']
     itemsInTable = [['Каменнозерское СОШ', 'Отсутствует эл. питание']]
     rightColumn_var = [[Psg.Image('', size=(35, 22))],
-                       [Psg.Image('', size=(10, 1)), Psg.Image(data=IconsList.allStatusGreen, size=(395, 30))],
+                       [Psg.Image('', size=(10, 1)), Psg.Image(data=IconsList.allStatusYellow, size=(395, 30))],
                        [Psg.Image('', size=(10, 1)), Psg.Table(itemsInTable, headings=headsOnTable, col_widths=[16, 26],
                         auto_size_columns=False, num_rows=18, selected_row_colors=('black', '#5babd4'),
                                                                alternating_row_color='#91f5fa')]
@@ -90,5 +91,8 @@ def mainform():
         if main_form_event == bollerON_key + '0':
             main_form[status_key + '0'].Update(data=IconsList.statusGreen)
             main_form[bollerON_key + '0'].Update(data=IconsList.powerOFF)
+        if main_form_event == 'Журнал событий':
+            RegQuery.get_catalog();
+
 
     main_form.close()
