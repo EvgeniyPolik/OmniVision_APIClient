@@ -15,12 +15,13 @@ fireAlert_key = '-fire-'
 pressure_key = '-p-'
 mainFont = ('Segoe UI', 10, 'bold')
 
+
 def mainform():
     indicators = []
     for i in range(10):
         indicators.append(
-            [Psg.Radio(f'Объект № {i+1} \n', group_id=0, pad=(0, 0), size=(25, 2),
-                   font=mainFont, key=radio_btn_key + str(i)),
+            [Psg.Radio(f'Объект № {i + 1} \n', group_id=0, pad=(0, 0), size=(25, 2),
+                       font=mainFont, key=radio_btn_key + str(i)),
              Psg.Image(data=IconsList.statusGreen, key=status_key + str(i), size=(10, 60)),
              Psg.T('', size=(1, 1)),
              Psg.Image(data=IconsList.ledNo, key=led_t1_key + '0' + str(i)),
@@ -40,32 +41,32 @@ def mainform():
              Psg.Image(data=IconsList.okIcon, key=fireAlert_key + str(i), enable_events=True)
              ])
 
-    leftColumn_var = [[Psg.T('Наименование объекта:', font=mainFont, size=(33, 1)),
-                       Psg.T('T-воздуха:', font=mainFont, size=(15, 1)),
-                       Psg.T('T-Подачи:', font=mainFont, size=(13, 1)),
-                       Psg.T('Режим:', font=mainFont, size=(8, 1)),
-                       Psg.T('Котел:', font=mainFont, size=(7, 1)),
-                       Psg.T('Охрана:', font=mainFont, size=(7, 1)),
-                       Psg.T('Питание:', font=mainFont, size=(7, 1)),
-                       Psg.T('Давление:', font=mainFont, size=(10, 1)),
-                       Psg.T('ГАЗ:', font=mainFont, size=(5, 1)),
-                       Psg.T('Пож Сигн:', font=mainFont, size=(8, 1))
-                       ]]
-    leftColumn_var.extend(indicators)
-    headsOnTable = ['Объект: ', 'Событие']
-    itemsInTable = [['Каменнозерское СОШ', 'Отсутствует эл. питание']]
-    rightColumn_var = [[Psg.Image('', size=(35, 22))],
-                       [Psg.Image('', size=(10, 1)), Psg.Image(data=IconsList.allStatusYellow, size=(395, 30))],
-                       [Psg.Image('', size=(10, 1)), Psg.Table(itemsInTable, headings=headsOnTable, col_widths=[16, 26],
-                        auto_size_columns=False, num_rows=18, selected_row_colors=('black', '#5babd4'),
-                                                               alternating_row_color='#91f5fa')]
+    left_column_var = [[Psg.T('Наименование объекта:', font=mainFont, size=(33, 1)),
+                        Psg.T('T-воздуха:', font=mainFont, size=(15, 1)),
+                        Psg.T('T-Подачи:', font=mainFont, size=(13, 1)),
+                        Psg.T('Режим:', font=mainFont, size=(8, 1)),
+                        Psg.T('Котел:', font=mainFont, size=(7, 1)),
+                        Psg.T('Охрана:', font=mainFont, size=(7, 1)),
+                        Psg.T('Питание:', font=mainFont, size=(7, 1)),
+                        Psg.T('Давление:', font=mainFont, size=(10, 1)),
+                        Psg.T('ГАЗ:', font=mainFont, size=(5, 1)),
+                        Psg.T('Пож Сигн:', font=mainFont, size=(8, 1))]
                        ]
+    left_column_var.extend(indicators)
+    heads_on_table = ['Объект: ', 'Событие']
+    items_in_table = [['Каменнозерское СОШ', 'Отсутствует эл. питание']]
+    right_column_var = [[Psg.Image('', size=(35, 22))],
+                        [Psg.Image('', size=(10, 1)), Psg.Image(data=IconsList.allStatusYellow, size=(395, 30))],
+                        [Psg.Image('', size=(10, 1)),
+                         Psg.Table(items_in_table, headings=heads_on_table, col_widths=[16, 26],
+                                   auto_size_columns=False, num_rows=18, selected_row_colors=('black', '#5babd4'),
+                                   alternating_row_color='#91f5fa')]
+                        ]
     mainmenu = [['Файл', ['Журнал событий']]]
     main_form_var = [
-                    [Psg.Menu(mainmenu)],
-                    [Psg.Column(leftColumn_var), Psg.Column(rightColumn_var, vertical_alignment="top")]
-                    ]
-
+        [Psg.Menu(mainmenu)],
+        [Psg.Column(left_column_var), Psg.Column(right_column_var, vertical_alignment="top")]
+    ]
 
     main_form = Psg.Window('OmniVision', main_form_var, size=(1360, 680), icon=IconsList.iconMainForm,
                            element_padding=0, finalize=True)
@@ -92,7 +93,7 @@ def mainform():
             main_form[status_key + '0'].Update(data=IconsList.statusGreen)
             main_form[bollerON_key + '0'].Update(data=IconsList.powerOFF)
         if main_form_event == 'Журнал событий':
-            RegQuery.get_catalog();
-
+            RegQuery.get_catalog()
+            print(RegQuery.catalog_boller[0]['Properties'][0])
 
     main_form.close()
