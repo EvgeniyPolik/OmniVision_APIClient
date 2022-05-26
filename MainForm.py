@@ -1,6 +1,10 @@
+import threading
+
 import PySimpleGUI as Psg
 import IconsList
 import RefreshForm
+import ReqQuery
+import RequestTimer
 
 main_form = Psg.Window('')
 radio_btn_key = '-radio-'
@@ -26,7 +30,8 @@ status_of_image = {
                     'pressure': [],
                     'GAZ': [],
                     'fire': [],
-                    'error': []
+                    'error': [],
+                    'all': ['g']
                     }
 for i in range(10):
     status_of_image['status_object'].append('g')
@@ -37,7 +42,6 @@ for i in range(10):
     status_of_image['power'].append('ok')
     status_of_image['pressure'].append('ok')
     status_of_image['GAZ'].append('ok')
-    status_of_image['fire'].append('ok')
     status_of_image['fire'].append('ok')
 
 
@@ -87,9 +91,10 @@ def mainform():
     heads_on_table = ['Объект: ', 'Событие']
     items_in_table = [['Каменнозерское СОШ', 'Отсутствует эл. питание']]
     right_column_var = [[Psg.Image('', size=(35, 22))],                    # Правый столбец элементов
-                        [Psg.Image('', size=(10, 1)), Psg.Image(data=IconsList.allStatusYellow, size=(395, 30))],
+                        [Psg.Image('', size=(10, 1)), Psg.Image(data=IconsList.allStatusYellow, size=(395, 30),
+                                                                key='-state-')],
                         [Psg.Image('', size=(10, 1)),
-                         Psg.Table(items_in_table, headings=heads_on_table, col_widths=[16, 18],
+                         Psg.Table(items_in_table, headings=heads_on_table, col_widths=[16, 18], key='-table_error-',
                                    auto_size_columns=False, num_rows=18, selected_row_colors=('black', '#5babd4'),
                                    alternating_row_color='#91f5fa')]
                         ]
@@ -107,21 +112,14 @@ def mainform():
             element.Widget.configure(justify='left', wraplength=300, height=2, anchor='w')
 
     RefreshForm.refresh_form()
+    daemon_request = RequestTimer.timer
+    AutomaticRequest = threading.Thread(target=daemon_request)
+    AutomaticRequest.setDaemon(True)
+    AutomaticRequest.start()
+    AutomaticRequest.join(0.5)
     while True:
         main_form_event, main_form_value = main_form.read()
         if main_form_event == Psg.WINDOW_CLOSED:
             break
-        if main_form_event == mode_key + '0':
-            main_form[status_key + '0'].Update(data=IconsList.statusYellow)
-            main_form[mode_key + '0'].Update(data=IconsList.winter)
-        if main_form_event == power_key + '0':
-            main_form[status_key + '0'].Update(data=IconsList.statusRed)
-            main_form[power_key + '0'].Update(data=IconsList.errorIcon)
-        if main_form_event == secutrity_key + '0':
-            main_form[status_key + '0'].Update(data=IconsList.statusGreen)
-            main_form[secutrity_key + '0'].Update(data=IconsList.attentionIcon)
-        if main_form_event == bollerON_key + '0':
-            main_form[status_key + '0'].Update(data=IconsList.statusGreen)
-            main_form[bollerON_key + '0'].Update(data=IconsList.powerOFF)
 
     main_form.close()

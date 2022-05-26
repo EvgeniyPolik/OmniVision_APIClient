@@ -8,6 +8,7 @@ def get_catalog():
     global catalog_bollers
     try:
         ids = 0
+        catalog_bollers = []
         while True:
             reg = requests.get('https://localhost:5001/GetCatolog/' + str(ids), verify=False)
             if reg.text != 'endoffile':
@@ -15,6 +16,7 @@ def get_catalog():
                 catalog_bollers.append(answer)
                 ids += 1
             else:
+                print(catalog_bollers)
                 break
         catalog_bollers = sorted(catalog_bollers, key=lambda x: x["Id"])
     except requests.exceptions.ConnectionError:

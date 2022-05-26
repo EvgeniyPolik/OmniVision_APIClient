@@ -1,12 +1,13 @@
 # Установлены PySimpleGUI, requests
+import threading
 import PySimpleGUI as Psg
 import locale
-
 import IconsList
 import MainForm
 import fdb
 
-import RegQuery
+import ReqQuery
+import RequestTimer
 import UserDialog
 
 locale.setlocale(locale.LC_ALL, '')  # Локализация согласно ОС
@@ -45,8 +46,7 @@ while True:  # Проверка пользователя
         UserDialog.popup('Указанные имя пользователь и пароль не найдены!')
 select_query = f'SELECT PRIV FROM US WHERE NAM_US = \'{user_name[0]}\' AND PASS = \'{user_name[1]}\''
 user_privilege = fb_cursor.execute(select_query).fetchall()[0][0]
-
-RegQuery.get_catalog()
-RegQuery.update_status()
+ReqQuery.get_catalog()
+ReqQuery.update_status()
 MainForm.mainform()
 
