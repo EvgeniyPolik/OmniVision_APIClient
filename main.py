@@ -1,5 +1,4 @@
-# Установлены PySimpleGUI, requests
-import threading
+# Установлены PySimpleGUI, requests, pydub
 import PySimpleGUI as Psg
 import locale
 import IconsList
@@ -7,7 +6,6 @@ import MainForm
 import fdb
 
 import ReqQuery
-import RequestTimer
 import UserDialog
 
 locale.setlocale(locale.LC_ALL, '')  # Локализация согласно ОС

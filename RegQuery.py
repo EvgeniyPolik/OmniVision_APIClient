@@ -8,7 +8,6 @@ def get_catalog():
     global catalog_bollers
     try:
         ids = 0
-        catalog_bollers = []
         while True:
             reg = requests.get('https://localhost:5001/GetCatolog/' + str(ids), verify=False)
             if reg.text != 'endoffile':
@@ -28,9 +27,3 @@ def update_status():
         if reg.text != 'Not_found':
             answer = reg.json()
             health_bollers[item["Id"]] = answer
-
-def post_command(number, cmd):
-    ids = catalog_bollers[number]["Id"]
-    print(ids, cmd)
-    post = requests.post('https://localhost:5001/GetStatus/', json={"Id": ids, "Command": cmd}, verify=False)
-    print(post.status_code)
