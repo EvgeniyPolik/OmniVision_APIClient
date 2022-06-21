@@ -53,9 +53,9 @@ def name_of_object(position):
 def update_info_form():  # Обновление списка
     for i in range(10):
         name_dict = name_of_object(i)
-        MainForm.main_form[MainForm.name_of_elements['radio_btn_key'] + str(i)].update(text=name_dict['name_object'] + '\n' +
-        name_dict['city_object'] + name_dict['pnt'] + name_dict['street_object'] + name_dict['pnt'] +
-                                                            name_dict['build_object'], disabled=name_dict['not_active'])
+        MainForm.main_form[MainForm.name_of_elements['radio_btn_key'] + str(i)].update(text=name_dict['name_object'] +
+            '\n' + name_dict['city_object'] + name_dict['pnt'] + name_dict['street_object'] + name_dict['pnt'] +
+            name_dict['build_object'], disabled=name_dict['not_active'])
         if name_dict['not_active']:
             for n in range(3):
                 MainForm.main_form[MainForm.name_of_elements['led_t1_key'] +
@@ -73,9 +73,9 @@ def refresh_form():
     # max_position = len(ReqQuery.catalog_bollers) if len(ReqQuery.catalog_bollers) < 11 else 10
     global_status = 'g'  # Значение по умолчанию
     new_attention = False
-    for position in range(max_position):  # Сначала обновим отображенные на форме
+    for position in range(max_position):  # Обновим сведения
         offset_position = position - offset
-        if offset <= position < offset + 10:
+        if offset <= position < offset + 10:  # отображен ли объект на форме
             new_status = 'g'  # Значение по умолчанию
             item_on_form = True
         else:
@@ -87,7 +87,10 @@ def refresh_form():
                 global_status = 'y'
             new_error.add((position, type_of_error[0]))
             if (position, type_of_error[0]) not in active_error:
-                new_attention = True
+                new_error.add((position, type_of_error[0] + '-first-'))
+            else:
+                if (position, type_of_error[0] + '-first-') in active_error:
+                    new_attention = True
             if item_on_form:
                 new_status = 'y'
                 if MainForm.status_of_image['mode'][offset_position] != 'unknow':
@@ -214,9 +217,11 @@ def refresh_form():
         MainForm.main_form['-state-'].Update(data=IconsList.allStatusYellow)
     else:
         MainForm.main_form['-state-'].Update(data=IconsList.allStatusRed)
+
     list_error_for_table = []
     for item in sorted(active_error):
-        list_error_for_table.append([ReqQuery.catalog_bollers[item[0]]['Properties'][0], item[1]])
+        if item[1][-7:] != '-first-':
+            list_error_for_table.append([ReqQuery.catalog_bollers[item[0]]['Properties'][0], item[1]])
     MainForm.main_form['-table_error-'].Update(list_error_for_table)
     if new_attention:
         playsound.playsound('anamlia.mp3')
